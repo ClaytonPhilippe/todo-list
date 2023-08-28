@@ -1,3 +1,3 @@
-# Todo List
+# Todo List - Em desenvolvimento
 
-Desenvolvimento de aplicativo para gestão de tarefas.
+Aplicativo para gestão de tarefas.
