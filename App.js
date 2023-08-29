@@ -9,10 +9,14 @@ import {
 } from 'react-native';
 
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import { AntDesign } from '@expo/vector-icons';
+import { SimpleLineIcons } from '@expo/vector-icons';
 
 export default function App() {
   const [tasks, setTasks] = useState([]);
   const [task, setTask] = useState('');
+  const [edittask, setEditTask] = useState('');
+  const [editmode, setEditMode] = useState(null)
 
   const addTask = () => {
     if (task.trim() === '') return;
@@ -26,9 +30,14 @@ export default function App() {
     setTasks(tasks.filter((item) => item.id !== id));
   };
 
+  const editTask = () => {
+    props.editHandler(props.todokey, text);
+    setEdit(false);
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>ToDo List</Text>
+      <Text style={styles.title}>TODO LIST</Text>
 
       <FlatList
         data={tasks}
@@ -39,14 +48,18 @@ export default function App() {
               textStyle={styles.checkboxText}
               style={styles.checkbox}
               text={item.text}
-              size={25}
+              size={29}
               fillColor="#5F80AF"
               innerIconStyle={{ borderWidth: 2 }}
             />
             <TouchableOpacity
               style={styles.removeButton}
               onPress={() => removeTask(item.id)}>
-              <Text style={styles.removeButtonIcon}>X</Text>
+              <AntDesign style={styles.removeButtonIcon} name="delete" />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.editButton} onPress={() => {}}>
+              <SimpleLineIcons style={styles.editButtonIcon} name="pencil" />
             </TouchableOpacity>
           </View>
         )}
@@ -88,6 +101,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
     padding: 15,
+    color: '#FFF4F4',
   },
   addButton: {
     backgroundColor: '#4F709C',
@@ -110,14 +124,29 @@ const styles = StyleSheet.create({
     height: 45,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#9A3B3B',
     borderRadius: 10,
     left: '90%',
   },
   removeButtonIcon: {
-    color: '#4d5d76',
+    color: '#213555',
     marginLeft: 10,
-    fontSize: 20,
+    fontSize: 24,
+  },
+  editButton: {
+    position: 'absolute',
+    color: '#213555',
+    width: 45,
+    height: 45,
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    borderRadius: 10,
+    left: '74%',
+  },
+  editButtonIcon: {
+    color: '#213555',
+    marginLeft: 10,
+    fontSize: 23,
   },
   taskContainer: {
     flexDirection: 'row',
@@ -131,6 +160,6 @@ const styles = StyleSheet.create({
   },
   checkboxText: {
     fontSize: 16,
-    color: 'white',
+    color: '#FFF4F4',
   },
 });
