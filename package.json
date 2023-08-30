@@ -14,7 +14,9 @@
     "expo-constants": "~14.2.1",
     "@expo/vector-icons": "^13.0.0",
     "react-native-paper": "4.9.2",
-    "react-native-bouncy-checkbox": "*"
+    "react-native-bouncy-checkbox": "*",
+    "@expo-google-fonts/inter": "*",
+    "expo-font": "~11.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

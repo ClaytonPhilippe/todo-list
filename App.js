@@ -8,15 +8,20 @@ import {
   FlatList,
 } from 'react-native';
 
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { AntDesign } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import { useFonts } from 'expo-font';
 
 export default function App() {
   const [tasks, setTasks] = useState([]);
   const [task, setTask] = useState('');
-  const [edittask, setEditTask] = useState('');
-  const [editmode, setEditMode] = useState(null)
+  const [editmode, setEditMode] = useState(false);
+  const [edittask, setEditTask] = useState();
+
+  const [fontsLoaded] = useFonts({
+    Handlee: require('./assets/fonts/Handlee-Regular.ttf'),
+  });
 
   const addTask = () => {
     if (task.trim() === '') return;
@@ -30,9 +35,13 @@ export default function App() {
     setTasks(tasks.filter((item) => item.id !== id));
   };
 
-  const editTask = () => {
-    props.editHandler(props.todokey, text);
-    setEdit(false);
+  const handlEdit = () => {
+    setEditMode(true);
+  };
+
+  const handleSave = () => {
+    editHandler(item.key, text);
+    setEditMode(false);
   };
 
   return (
@@ -91,6 +100,7 @@ const styles = StyleSheet.create({
   title: {
     color: '#5F80AF',
     fontSize: 20,
+    fontFamily: 'Handlee',
   },
   input: {
     width: '100%',
@@ -161,5 +171,6 @@ const styles = StyleSheet.create({
   checkboxText: {
     fontSize: 16,
     color: '#FFF4F4',
+    fontFamily: 'Handlee',
   },
 });
