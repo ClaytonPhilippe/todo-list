@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  FlatList,
+  FlatList, 
 } from 'react-native';
 
 import { AntDesign } from '@expo/vector-icons';
@@ -44,36 +44,37 @@ export default function App() {
     setEditMode(false);
   };
 
+  const renderItem = ({ item }) => (
+    <View style={styles.taskContainer}>
+      <Text>{item.text}</Text>
+      <BouncyCheckbox
+        textStyle={styles.checkboxText}
+        style={styles.checkbox}
+        text={item.text}
+        size={29}
+        fillColor="#5F80AF"
+        innerIconStyle={{ borderWidth: 2 }}
+      />
+      <TouchableOpacity
+        style={styles.removeButton}
+        onPress={() => removeTask(item.id)}>
+        <AntDesign style={styles.removeButtonIcon} name="delete" />
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.editButton} onPress={() => {}}>
+        <SimpleLineIcons style={styles.editButtonIcon} name="pencil" />
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>TODO LIST</Text>
-
       <FlatList
         data={tasks}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.taskContainer}>
-            <BouncyCheckbox
-              textStyle={styles.checkboxText}
-              style={styles.checkbox}
-              text={item.text}
-              size={29}
-              fillColor="#5F80AF"
-              innerIconStyle={{ borderWidth: 2 }}
-            />
-            <TouchableOpacity
-              style={styles.removeButton}
-              onPress={() => removeTask(item.id)}>
-              <AntDesign style={styles.removeButtonIcon} name="delete" />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.editButton} onPress={() => {}}>
-              <SimpleLineIcons style={styles.editButtonIcon} name="pencil" />
-            </TouchableOpacity>
-          </View>
-        )}
+        renderItem={renderItem}
       />
-
       <TextInput
         maxLength={10}
         style={styles.input}
