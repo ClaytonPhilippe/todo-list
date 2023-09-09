@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  FlatList, 
+  FlatList,
 } from 'react-native';
 
 import { AntDesign } from '@expo/vector-icons';
@@ -17,7 +17,7 @@ export default function App() {
   const [tasks, setTasks] = useState([]);
   const [task, setTask] = useState('');
   const [editmode, setEditMode] = useState(false);
-  const [edittask, setEditTask] = useState();
+  const [edittask, setEditTask] = useState({ id: '', text: '' });
 
   const [fontsLoaded] = useFonts({
     Handlee: require('./assets/fonts/Handlee-Regular.ttf'),
@@ -35,18 +35,25 @@ export default function App() {
     setTasks(tasks.filter((item) => item.id !== id));
   };
 
-  const handlEdit = () => {
+  const handleEdit = (id) => {
     setEditMode(true);
+    setEditTask(id);
   };
 
   const handleSave = () => {
-    editHandler(item.key, text);
+    const updatedTasks = tasks.map((t) => {
+      if (t.id === edittask) {
+        return { ...t, text: task };
+      }
+      return t;
+    });
+    setTasks(updatedTasks);
     setEditMode(false);
+    setEditTask('');
   };
 
   const renderItem = ({ item }) => (
     <View style={styles.taskContainer}>
-      <Text>{item.text}</Text>
       <BouncyCheckbox
         textStyle={styles.checkboxText}
         style={styles.checkbox}
@@ -61,9 +68,23 @@ export default function App() {
         <AntDesign style={styles.removeButtonIcon} name="delete" />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.editButton} onPress={() => {}}>
-        <SimpleLineIcons style={styles.editButtonIcon} name="pencil" />
-      </TouchableOpacity>
+      {editmode && edittask === item.id ? (
+        <TextInput value={task} onChangeText={setTask} />
+      ) : (
+        <TouchableOpacity
+          style={styles.editButton}
+          onPress={() => handleEdit(item.id)}>
+          <SimpleLineIcons style={styles.editButtonIcon} name="pencil" />
+        </TouchableOpacity>
+      )}
+
+      {editmode && edittask === item.id ? ( // Passo 9: Renderização condicional para o botão de salvar
+        <TouchableOpacity
+          style={styles.editButton}
+          onPress={() => handleSave(item)}>
+          <AntDesign style={styles.editButtonIcon} name="save" />
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 
