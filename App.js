@@ -74,15 +74,15 @@ export default function App() {
         <TouchableOpacity
           style={styles.editButton}
           onPress={() => handleEdit(item.id)}>
-          <SimpleLineIcons style={styles.editButtonIcon} name="pencil" />
+          <SimpleLineIcons style={styles.editIcon} name="pencil" />
         </TouchableOpacity>
       )}
 
-      {editmode && edittask === item.id ? ( // Passo 9: Renderização condicional para o botão de salvar
+      {editmode && edittask === item.id ? (
         <TouchableOpacity
           style={styles.editButton}
           onPress={() => handleSave(item)}>
-          <AntDesign style={styles.editButtonIcon} name="save" />
+          <AntDesign style={styles.saveIcon} name="save" />
         </TouchableOpacity>
       ) : null}
     </View>
@@ -175,7 +175,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     left: '74%',
   },
-  editButtonIcon: {
+  editIcon: {
+    color: '#213555',
+    marginLeft: 10,
+    fontSize: 23,
+  },
+  saveIcon: {
     color: '#213555',
     marginLeft: 10,
     fontSize: 23,
